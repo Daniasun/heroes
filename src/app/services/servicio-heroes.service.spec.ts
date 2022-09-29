@@ -3,7 +3,7 @@ import { ServicioHeroesService } from './servicio-heroes.service';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {HttpClientModule} from '@angular/common/http';
 import {HeroeModel} from '../models/heroe-model';
-import {Observable, of} from 'rxjs';
+import {of} from 'rxjs';
 
 describe('ServicioHeroesService', () => {
   const mockHeroes = [
