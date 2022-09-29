@@ -105,6 +105,13 @@ describe('ComponenteHeroesComponent', () => {
     expect(component.heroeEditar).toEqual(mockHeroes[0]);
     expect(component.formEditar.get('nombre')).toBeTruthy();
   });
+  it(' ocultar Formularios', () => {
+    component.ocultarFormularios();
+    expect(component.mostrarEditar).toEqual(false);
+    expect(component.mostrarAniadir).toEqual(false);
+  });
+
+
   it(' mostrar Form Añadir', () => {
     component.heroesService.setHeroes(mockHeroes);
     component.heroeEditar = { id: component.heroes.length + 1, nombre: ''};

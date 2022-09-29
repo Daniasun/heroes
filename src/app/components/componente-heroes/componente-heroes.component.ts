@@ -65,6 +65,10 @@ export class ComponenteHeroesComponent implements OnInit {
       nombre: new FormControl(this.heroeEditar.nombre)
     });
   }
+  public ocultarFormularios(): void {
+    this.mostrarAniadir = false;
+    this.mostrarEditar = false;
+  }
   public mostrarFormAniadir(): void {
     this.mostrarAniadir = true;
     this.mostrarEditar = false;
@@ -84,6 +88,7 @@ export class ComponenteHeroesComponent implements OnInit {
     this.recargarHeroes();
   }
   public eliminar(id: number): void {
+    this.ocultarFormularios();
     this.heroesService.eliminarHeroe(id);
     this.recargarHeroes();
   }
