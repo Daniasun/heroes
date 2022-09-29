@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {ServicioHeroesService} from '../../services/servicio-heroes.service';
 import { HeroeModel } from '../../models/heroe-model';
 import {MatPaginator, MatTableDataSource} from '@angular/material';
-import {FormBuilder, FormControl} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-componente-heroes',
@@ -15,17 +15,18 @@ export class ComponenteHeroesComponent implements OnInit {
               readonly formBuilder: FormBuilder) {
     this.cargarHeroes();
   }
-  public formBuscar: any;
-  public formEditar: any;
-  public formAniadir: any;
+  public formBuscar: FormGroup;
+  public formEditar: FormGroup;
+  public formAniadir: FormGroup;
   public mostrarEditar = false;
   public mostrarAniadir = false;
+  public requeridoAniadir = false;
+  public requeridoEditar = false;
   public heroes: HeroeModel[];
   public heroeEditar: HeroeModel;
   public dataSource: MatTableDataSource<HeroeModel>;
   public displayColumns: string[] = ['id', 'nombre', 'actions'];
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
-
   ngOnInit() {
     this.cargarHeroes();
     this.cargarForms();
@@ -62,7 +63,7 @@ export class ComponenteHeroesComponent implements OnInit {
     this.mostrarAniadir = false;
     this.heroeEditar = heroe;
     this.formEditar = this.formBuilder.group({
-      nombre: new FormControl(this.heroeEditar.nombre)
+      nombre: new FormControl(this.heroeEditar.nombre, [Validators.required])
     });
   }
   public ocultarFormularios(): void {
@@ -72,17 +73,27 @@ export class ComponenteHeroesComponent implements OnInit {
   public mostrarFormAniadir(): void {
     this.mostrarAniadir = true;
     this.mostrarEditar = false;
-    this.heroeEditar = { id: this.heroes.length + 1, nombre: ''}
+    this.heroeEditar = { id: this.heroes.length + 1, nombre: ''};
     this.formAniadir = this.formBuilder.group({
-      nombre: new FormControl('')
+      nombre: new FormControl('', [Validators.required])
     });
   }
   public editar(heroe: HeroeModel): void {
+    if (!this.formEditar.valid) {
+      this.requeridoEditar = true;
+      return;
+    }
+    this.requeridoEditar = false;
     heroe.nombre = this.formEditar.controls.nombre.value;
     this.heroesService.modificarHeroe(heroe);
     this.recargarHeroes();
   }
   public aniadir(heroe: HeroeModel): void {
+    if (!this.formAniadir.valid) {
+      this.requeridoAniadir = true;
+      return;
+    }
+    this.requeridoAniadir = false;
     heroe.nombre = this.formAniadir.controls.nombre.value;
     this.heroesService.aniadirHeroe(heroe);
     this.recargarHeroes();

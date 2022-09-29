@@ -1,6 +1,6 @@
 import {async, ComponentFixture, inject, TestBed} from '@angular/core/testing';
 import { ComponenteHeroesComponent } from './componente-heroes.component';
-import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormControl, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from '@angular/core';
 import {MatPaginatorModule, MatTableDataSource, MatTableModule} from '@angular/material';
 import { HttpClientModule} from '@angular/common/http';
@@ -72,7 +72,7 @@ describe('ComponenteHeroesComponent', () => {
   });
   it(' buscar', () => {
     component.heroesService.setHeroes(mockHeroes);
-    component.formBuscar.controls.busqueda.value = 'Goku';
+    component.formBuscar.get('busqueda').setValue('Goku');
     const heroesEncontrados = component.heroesService.consultarHeroePorBusqueda('Goku');
     component.buscar();
     expect(component.heroes).toEqual(heroesEncontrados);
@@ -80,7 +80,7 @@ describe('ComponenteHeroesComponent', () => {
 
   it(' cargar Heroes', () => {
     const response: HeroeModel[] = [];
-    spyOn(heroesService, 'getAll').and.returnValue(of(response))
+    spyOn(heroesService, 'getAll').and.returnValue(of(response));
     component.heroesService.setHeroes(response);
     component.cargarHeroes();
     expect(component.heroes).toEqual(response);
@@ -101,7 +101,7 @@ describe('ComponenteHeroesComponent', () => {
     component.heroesService.setHeroes(mockHeroes);
     component.mostrarFormEditar(mockHeroes[0]);
     component.formEditar = component.formBuilder.group({
-      nombre: new FormControl(component.heroeEditar.nombre)
+      nombre: new FormControl(component.heroeEditar.nombre, [Validators.required])
     });
     expect(component.mostrarEditar).toEqual(true);
     expect(component.mostrarAniadir).toEqual(false);
@@ -120,7 +120,7 @@ describe('ComponenteHeroesComponent', () => {
     component.heroeEditar = { id: component.heroes.length + 1, nombre: ''};
     component.mostrarFormAniadir();
     component.formAniadir = component.formBuilder.group({
-      nombre: new FormControl(component.heroeEditar.nombre)
+      nombre: new FormControl(component.heroeEditar.nombre, [Validators.required])
     });
     expect(component.mostrarAniadir).toEqual(true);
     expect(component.mostrarEditar).toEqual(false);
@@ -131,7 +131,7 @@ describe('ComponenteHeroesComponent', () => {
     component.heroesService.setHeroes(mockHeroes);
     component.heroeEditar = mockHeroes[0];
     component.formEditar = component.formBuilder.group({
-      nombre: new FormControl(component.heroeEditar.nombre + 'editado')
+      nombre: new FormControl(component.heroeEditar.nombre + 'editado', [Validators.required])
     });
     component.editar(mockHeroes[0]);
     expect(mockHeroes[0].nombre).toEqual(component.formEditar.get('nombre').value);
@@ -140,7 +140,7 @@ describe('ComponenteHeroesComponent', () => {
     component.heroesService.setHeroes(mockHeroes);
     component.heroeEditar = { id: component.heroes.length + 1, nombre: 'Añadido'};
     component.formAniadir = component.formBuilder.group({
-      nombre: new FormControl(component.heroeEditar.nombre)
+      nombre: new FormControl(component.heroeEditar.nombre, [Validators.required])
     });
     component.aniadir(component.heroeEditar);
     expect(component.heroeEditar.nombre).toEqual(component.formAniadir.get('nombre').value);

@@ -13,6 +13,7 @@
     "editar": "Editar",
     "eliminar": "Eliminar",
     "form_aniadir": "Formulario añadir Superheroe",
-    "form_editar": "Formulario editar Superheroe"
+    "form_editar": "Formulario editar Superheroe",
+    "requerido": "Requerido"
   }
 }

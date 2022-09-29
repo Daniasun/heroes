@@ -12,6 +12,7 @@
     "editar": "Edit",
     "eliminar": "Delete",
     "form_aniadir": "Superhero add form",
-    "form_editar": "Superhero edit form"
+    "form_editar": "Superhero edit form",
+    "requerido": "Required"
   }
 }
