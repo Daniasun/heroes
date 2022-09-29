@@ -1,0 +1,60 @@
+<div class="ml-4 d-flex flex-row">
+    <form [formGroup]="formBuscar" class="col-6">
+        <div class="form-group  ">
+            <input formControlName="busqueda" placeholder="Busqueda" type="text" class="form-control" (keyup)="buscar()">
+        </div>
+    </form>
+
+    <div class="ml-4 form-group col-6">
+        <button mat-list-item (click)="mostrarFormAniadir()"> Añadir </button>
+    </div>
+</div>
+<div class="d-flex flex-row">
+    <div class="col-5 m-3 p-3 mat-elevation-z8">
+        <div class="table">
+            <table mat-table [dataSource]="dataSource" class="col-12">
+                <ng-container matColumnDef="id">
+                    <th  mat-header-cell *matHeaderCellDef> ID </th>
+                    <td  mat-cell *matCellDef="let item"> {{item.id}} </td>
+                </ng-container>
+                <ng-container matColumnDef="nombre">
+                    <th  mat-header-cell *matHeaderCellDef> Nombre </th>
+                    <td  mat-cell *matCellDef="let item"> {{item.nombre}} </td>
+                </ng-container>
+                <ng-container matColumnDef="actions">
+                    <th  mat-header-cell *matHeaderCellDef> Editar / Eliminar </th>
+                    <td  mat-cell *matCellDef="let item">
+                        <button mat-list-item (click)="mostrarFormEditar(item)"> Editar </button>
+                        <button mat-list-item (click)="eliminar(item.id)"> Eliminar </button>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayColumns;"></tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[2, 4, 6, 8, 10]" [pageSize]="8" showFirstLastButtons></mat-paginator>
+        </div>
+    </div>
+    <div class="col-5 m-3 p-3 mat-elevation-z8">
+        <form *ngIf="mostrarEditar" [formGroup]="formEditar" class="justify-content-center">
+            <h4>Formulario editar Superheroe</h4>
+            <div class="form-group">
+                <input formControlName="nombre" type="text" placeholder="Nombre" class="form-control" oninput="this.value = this.value.toUpperCase()" >
+            </div>
+            <div class="form-group">
+                <button mat-list-item (click)="editar(heroeEditar)"> Editar </button>
+            </div>
+        </form>
+        <form *ngIf="mostrarAniadir" [formGroup]="formAniadir" class="justify-content-center">
+            <h4>Formulario añadir Superheroe</h4>
+            <div class="form-group">
+                <input formControlName="nombre"
+                       [ngModel]="heroeEditar.nombre" [defaultValue]="heroeEditar.nombre" [placeholder]="heroeEditar.nombre"
+                       type="text" placeholder="Nombre" class="form-control" oninput="this.value = this.value.toUpperCase()">
+            </div>
+            <div class="form-group">
+                <button mat-list-item (click)="aniadir(heroeEditar)"> Añadir </button>
+            </div>
+        </form>
+    </div>
+</div>
+

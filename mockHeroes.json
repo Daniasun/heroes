@@ -1,0 +1,11 @@
+{
+  "heroes" : [
+    {"id": 1, "nombre" : "Superman"},
+    {"id": 2, "nombre" : "Spiderman"},
+    {"id": 3, "nombre" : "Batman"},
+    {"id": 4, "nombre" : "Manolito el fuerte"},
+    {"id": 5, "nombre" : "Hulk"},
+    {"id": 6, "nombre" : "IronMan"},
+    {"id": 7, "nombre" : "Goku"}
+  ]
+}

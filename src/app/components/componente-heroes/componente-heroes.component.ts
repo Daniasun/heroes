@@ -1,0 +1,90 @@
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {ServicioHeroesService} from '../../services/servicio-heroes.service';
+import { HeroeModel } from '../../models/heroe-model';
+import {MatPaginator, MatTableDataSource} from '@angular/material';
+import {FormBuilder, FormControl} from '@angular/forms';
+
+@Component({
+  selector: 'app-componente-heroes',
+  templateUrl: './componente-heroes.component.html',
+  styleUrls: ['./componente-heroes.component.scss']
+})
+export class ComponenteHeroesComponent implements OnInit {
+
+  constructor(readonly heroesService: ServicioHeroesService,
+              readonly formBuilder: FormBuilder) {
+    this.cargarHeroes();
+  }
+  public formBuscar: any;
+  public formEditar: any;
+  public formAniadir: any;
+  public mostrarEditar = false;
+  public mostrarAniadir = false;
+  public heroes: HeroeModel[];
+  public heroeEditar: HeroeModel;
+  public dataSource: MatTableDataSource<HeroeModel>;
+  public displayColumns: string[] = ['id', 'nombre', 'actions'];
+  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
+
+  ngOnInit() {
+    this.cargarHeroes();
+    this.cargarForms();
+  }
+  public cargarForms(): void {
+    this.formBuscar = this.formBuilder.group({
+      busqueda: new FormControl('')
+    });
+  }
+  public buscar() {
+    const resultado = this.heroesService.consultarHeroePorBusqueda(this.formBuscar.controls.busqueda.value);
+    if (resultado) {
+      this.heroes = resultado;
+      this.dataSource.data = resultado;
+    }
+  }
+  public cargarHeroes(): void {
+    this.heroesService.getAll().subscribe((value: HeroeModel[]) => {
+      this.heroes = value;
+      this.heroesService.setHeroes(value);
+      this.recargarDataSource();
+    });
+  }
+  public recargarHeroes(): void {
+    this.heroes = this.heroesService.consultarTodos();
+    this.recargarDataSource();
+  }
+  public recargarDataSource(): void {
+    this.dataSource = new MatTableDataSource<HeroeModel>(this.heroes);
+    this.dataSource.paginator = this.paginator;
+  }
+  public mostrarFormEditar(heroe: HeroeModel): void {
+    this.mostrarEditar = true;
+    this.mostrarAniadir = false;
+    this.heroeEditar = heroe;
+    this.formEditar = this.formBuilder.group({
+      nombre: new FormControl(this.heroeEditar.nombre)
+    });
+  }
+  public mostrarFormAniadir(): void {
+    this.mostrarAniadir = true;
+    this.mostrarEditar = false;
+    this.heroeEditar = { id: this.heroes.length + 1, nombre: ''}
+    this.formAniadir = this.formBuilder.group({
+      nombre: new FormControl('')
+    });
+  }
+  public editar(heroe: HeroeModel): void {
+    heroe.nombre = this.formEditar.controls.nombre.value;
+    this.heroesService.modificarHeroe(heroe);
+    this.recargarHeroes();
+  }
+  public aniadir(heroe: HeroeModel): void {
+    heroe.nombre = this.formAniadir.controls.nombre.value;
+    this.heroesService.aniadirHeroe(heroe);
+    this.recargarHeroes();
+  }
+  public eliminar(id: number): void {
+    this.heroesService.eliminarHeroe(id);
+    this.recargarHeroes();
+  }
+}
