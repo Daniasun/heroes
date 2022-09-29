@@ -10,6 +10,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {} from 'jasmine';
 import {HeroeModel} from '../../models/heroe-model';
 import {of} from 'rxjs';
+import {TranslateModule, TranslateService} from '@ngx-translate/core';
 
 let mockHeroes: HeroeModel[];
 mockHeroes = [
@@ -36,10 +37,12 @@ describe('ComponenteHeroesComponent', () => {
         MatTableModule,
         HttpClientModule,
         HttpClientTestingModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        TranslateModule.forRoot()
       ],
       providers: [
-        ServicioHeroesService
+        ServicioHeroesService,
+        TranslateService
       ],
       schemas: [
         CUSTOM_ELEMENTS_SCHEMA,

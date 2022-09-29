@@ -7,6 +7,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
 import {ServicioHeroesService} from '../../services/servicio-heroes.service';
 import {ComponenteHeroesRoutingModule} from './componente-heroes-routing.module';
+import {TranslateModule} from '@ngx-translate/core';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import {ComponenteHeroesRoutingModule} from './componente-heroes-routing.module'
     MatPaginatorModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule
+    RouterModule,
+    TranslateModule.forChild()
   ],
   exports: [
     ComponenteHeroesComponent

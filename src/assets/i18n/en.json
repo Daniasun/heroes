@@ -1,0 +1,17 @@
+{
+  "heroes": {
+    "castellano": "Spanish",
+    "ingles": "English",
+    "titulo": "Welcome to Heros!",
+    "link_listado": "Show list of Superheros",
+    "busqueda": "Search",
+    "aniadir": "Add",
+    "id": "ID",
+    "nombre": "Name",
+    "editar_eliminar": "Edit / Delete",
+    "editar": "Edit",
+    "eliminar": "Delete",
+    "form_aniadir": "Superhero add form",
+    "form_editar": "Superhero edit form"
+  }
+}

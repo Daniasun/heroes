@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ServicioHeroesService } from './services/servicio-heroes.service';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
@@ -8,5 +9,12 @@ import { ServicioHeroesService } from './services/servicio-heroes.service';
   providers: [ServicioHeroesService]
 })
 export class AppComponent {
-  title = 'heroes';
+  private title = '';
+  constructor(readonly translateService: TranslateService) {
+    this.translateService.setDefaultLang('es');
+    this.translateService.get(['heroes.nombre_app']).subscribe(tranlations => {
+      this.title = tranlations['heroes.nombre_app'];
+    });
+  }
+
 }

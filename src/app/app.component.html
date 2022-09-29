@@ -1,11 +1,17 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Bienvenido a  {{ title }}!
-  </h1>
-  <div class="m-3">
-    <a routerLink="tabla-heroes"> Mostrar listado de SuperHeroes</a>
+<div class="d-flex flex-row">
+  <div class="ml-4 form-group">
+    <button (click)="translateService.setDefaultLang('es')">{{ 'heroes.castellano' | translate}} </button>
+  </div>
+  <div class="ml-4 form-group">
+    <button (click)="translateService.setDefaultLang('en')">{{ 'heroes.ingles' | translate}} </button>
   </div>
 </div>
-<!--<app-componente-heroes></app-componente-heroes>-->
+<div style="text-align:center">
+  <h1>
+    {{ 'heroes.titulo' | translate}}
+  </h1>
+  <div class="m-3">
+    <a routerLink="tabla-heroes"> {{ 'heroes.link_listado' | translate}}</a>
+  </div>
+</div>
 <router-outlet></router-outlet>
